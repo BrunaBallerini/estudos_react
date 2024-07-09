@@ -1,57 +1,56 @@
 import logo from './logo.svg';
 import './App.css';
-// import { Component } from 'react';
+import { Component } from 'react';
 
 
-// Componentes de classe
-// class App extends Component {
-//   render() {
-//     return <h1>Oi</h1>
-// //   }
-// // }
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     )
-//   }
-// }
+class App extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.handlePClique = this.handlePClique.bind(this);
+  //   this.state = {
+  //     name: "Bruna ",
+  //     counter: 0
+  //   };
+  // }
 
-// Componente de função
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  state = {
+    name: "Bruna ",
+    counter: 0
+  };
+
+  handlePClique = () => {
+    const { name } = this.state;
+    console.log(`<p> clicado ${name}`);
+    this.setState({ name: 'Ballerini ' });
+  }
+
+  handleAClique = (event) => {
+    event.preventDefault();
+    const { counter } = this.state;
+    this.setState({ counter: counter + 1 });
+  }
+
+  render() {
+    const { name, counter } = this.state;
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p onClick={this.handlePClique}>
+            {name} {counter}
+          </p>
+          <a onClick={this.handleAClique}
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
+      </div>
+    )
+  }
 }
 
 export default App;
