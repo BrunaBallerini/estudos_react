@@ -13,9 +13,14 @@ class App extends Component {
 
   loadPosts = async () => {
     const postsResponse = fetch('https://jsonplaceholder.typicode.com/posts');
-    const [posts] = await Promise.all([postsResponse]);
+    const imageResponse = fetch('https://jsonplaceholder.typicode.com/photos');
+    const [posts, image] = await Promise.all([postsResponse, imageResponse]);
     const postsJson = await posts.json();
-    this.setState({ posts: postsJson });
+    const imageJson = await image.json();
+    const postAndImage = postsJson.map((post, index) => {
+      return { ...post, cover: imageJson[index].url }
+    });
+    this.setState({ posts: postAndImage });
   }
 
 
@@ -25,9 +30,12 @@ class App extends Component {
       <section className='container'>
         <div className="posts">
           {posts.map(post => (
-            <div key={post.id} className='post'>
-              <h3>{post.title}</h3>
-              <p>{post.body}</p>
+            <div className='post'>
+              <img src={post.cover} alt={post.title} />
+              <div key={post.id} className='post-content'>
+                <h3>{post.title}</h3>
+                <p>{post.body}</p>
+              </div>
             </div>
           ))}
         </div>
