@@ -47,18 +47,37 @@ export class Home extends Component {
   render() {
     const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
     const noMorePosts = page + postsPerPage >= allPosts.length;
+
+    const filteredPosts = !!searchValue ?
+      allPosts.filter(post => {
+        return post.title.toLowerCase().includes(
+          searchValue.toLowerCase()
+        );
+      })
+      : posts;
+
+
     return (
       <section className='container'>
-        {!!searchValue && <h2>Search Value: {searchValue}</h2>}
-        {console.log(searchValue)}
-        <input
-          onChange={this.handleChange}
-          value={searchValue}
-          type='search' /><br /><br
-        />
-        <Post
-          post={posts}
-        />
+        <div className='search-container'>
+          {!!searchValue && <h2>Search Value: {searchValue}</h2>}
+          {console.log(searchValue)}
+          <input
+            className='text-input'
+            onChange={this.handleChange}
+            value={searchValue}
+            type='search'
+            placeholder='Type your search'
+          />
+        </div>
+
+        {filteredPosts.length === 0
+          ? <h1>There no posts related to the search</h1>
+          : <Post
+            post={filteredPosts}
+          />
+        }
+
         <div class="button-container">
           {!searchValue && <ButtonPage
             text="Load for more posts"
